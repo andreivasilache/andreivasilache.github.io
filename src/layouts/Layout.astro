@@ -1,0 +1,73 @@
+---
+import "@fontsource-variable/jetbrains-mono";
+
+import jetbrainsMonoLatin from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url";
+import jetbrainsMonoLatinExt from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-ext-wght-normal.woff2?url";
+
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="AV Portofolio" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:title" content="Vasilache Andrei's Portfolio" />
+    <meta
+      property="og:description"
+      content="Software Engineer with a passion for Next.js, Typescript and coffee addict. Explore my projects and contributions."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://andreivasilache.github.io/" />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <title>Vasilache Andrei</title>
+    <meta
+      name="description"
+      content="Software Engineer with a passion for Next.js, Typescript and coffee addict. Explore my projects and contributions."
+    />
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={jetbrainsMonoLatin}
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={jetbrainsMonoLatinExt}
+      crossorigin="anonymous"
+    />
+
+    <script
+      type="text/partytown"
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GHP7P1CTMY"></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-GHP7P1CTMY");
+    </script>
+  </head>
+  <!-- <body class="p-12 w-screen bg-white text-gray-900 antialiased"> -->
+  <body class="p-12 w-screen">
+    <slot />
+  </body>
+</html>

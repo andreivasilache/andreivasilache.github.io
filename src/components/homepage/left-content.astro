@@ -1,0 +1,53 @@
+---
+import Image from "astro/components/Image.astro";
+import me from "../../assets/me.jpg";
+import { AiOutlineX, AiOutlineGithub, AiOutlineLinkedin } from "react-icons/ai";
+---
+
+<Image
+  src={me}
+  alt="Me"
+  class="mb-4 rounded-xl"
+  loading="eager"
+  width={1000}
+  priority
+  fetchpriority="high"
+  format="webp"
+/>
+<div>
+  <div class="flex justify-between self-baseline mb-4 mt-8">
+    <h2 class="text-xl font-bold">Me</h2>
+    <div class="flex gap-4">
+      <a href="https://x.com/andreiv_andrei" target="_blank" aria-label="X">
+        <AiOutlineX size={24} />
+      </a>
+      <a
+        href="https://github.com/andreivasilache"
+        target="_blank"
+        aria-label="GitHub"
+      >
+        <AiOutlineGithub size={24} />
+      </a>
+      <a
+        href="https://www.linkedin.com/in/vasilache-andrei-741a1a158/"
+        target="_blank"
+        aria-label="LinkedIn"
+      >
+        <AiOutlineLinkedin size={24} />
+      </a>
+    </div>
+  </div>
+
+  <div>👱 Vasilache Andrei - 25 years old</div>
+  <div>📍 Suceava, Romania</div>
+  <div>
+    💼 Software Development Engineer III @ <a
+      href="https://assist-software.net"
+      class="text-blue-600">Assist Software</a
+    >
+  </div>
+  <div>
+    🗺️ Traveled so far: Germany, Italy (Rome & Venice), Greece (Crete & Corfu)
+  </div>
+  <div>☕ I'll never say no to a good espresso</div>
+</div>

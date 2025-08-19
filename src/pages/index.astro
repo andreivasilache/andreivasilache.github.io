@@ -1,0 +1,90 @@
+---
+import LeftContent from "../components/homepage/left-content.astro";
+import AssistProjects from "../components/homepage/assist-projects.astro";
+import FreelancingRenderer from "../components/homepage/freelancing-renderer";
+import AssistEvents from "../components/homepage/assist-events.astro";
+import Testimonials from "../components/homepage/testimonials.astro";
+
+import Layout from "../layouts/Layout.astro";
+
+const PREVIOUS_EXPERIENCE = 1;
+
+const startDate = new Date(2019, 6) as unknown as number; // July is month 6 (0-indexed)
+const today = new Date() as unknown as number;
+const yearsDifference =
+  Math.floor((today - startDate) / (1000 * 60 * 60 * 24 * 365.25)) +
+  PREVIOUS_EXPERIENCE;
+---
+
+<Layout>
+  <div class="flex gap-12 flex-col lg:flex-row">
+    <div class="hidden lg:block flex-1">
+      <LeftContent />
+    </div>
+
+    <div class="flex-2">
+      <div class="order-1">
+        <div class="flex justify-between items-center w-full mb-8">
+          <h2 class="text-xl font-bold mb-4 mt-4">👋 Hi I'm Andrei</h2>
+          <a
+            href="mailto:vasilacheandrei46@gmail.com"
+            class="bg-black text-white py-2 px-2 sm:px-4 text-sm rounded cursor-pointer"
+            >mail me</a
+          >
+        </div>
+
+        <div class="columns-1 sm:columns-2 gap-8">
+          I’m curious by nature and always looking for ways to make life a
+          little smarter and easier through technology. I love exploring new
+          ideas, whether it’s experimenting with AI, building apps, or dreaming
+          up projects that could one day grow into something bigger.
+          <br />
+          <br />
+          Outside of work, I love traveling, listening, and engaging in interesting
+          conversations that spark new ideas. I’m passionate about helping others,
+          and this site is a space where I share a bit of who I am and the projects
+          I’m working on to make a positive impact.
+        </div>
+      </div>
+
+      <div class="visible mt-8 lg:hidden">
+        <LeftContent />
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold mb-4 mt-4">🏫 Education</h2>
+        <div class="mb-4">
+          <strong>Economic Informatics</strong>
+          <br />
+          <span class="text-gray-600"
+            >Ştefan cel Mare University of Suceava, 2019 - 2022</span
+          >
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold mb-4 mt-4">🧑‍🏭 Job Experience</h2>
+
+        <div>
+          I'm currently working as a Software Engineer at Assist Software,
+          having almost
+          <b> {yearsDifference} years of experience</b>. During this time I'be
+          been involved in various projects, including (<span
+            class="text-gray-600"
+            >I cannot specify project names because of confidentiality
+            agreements</span
+          >):
+        </div>
+        <br />
+
+        <AssistProjects />
+
+        <AssistEvents />
+      </div>
+
+      <Testimonials />
+
+      <FreelancingRenderer client:load />
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,33 @@
+---
+import Image from "astro/components/Image.astro";
+
+import brunna_review from "../../assets/brunna-review.png";
+import miguel_review from "../../assets/miguel-review.png";
+---
+
+<h2 class="text-xl font-bold mb-4 mt-4">🤝 Testimonials</h2>
+<div>
+  Because Linkedin does not provide a way to embed testimonials, I'll provide
+  some screenshots received from some peers I've been worked with - you can see
+  the original ones on my <a
+    class="text-blue-600"
+    href="https://www.linkedin.com/in/vasilache-andrei-741a1a158/"
+    >linkedin profile:</a
+  >
+</div>
+
+<Image
+  src={brunna_review}
+  alt="Brunna's testimonial"
+  loading="lazy"
+  class="my-4 rounded-3xl mx-auto mb-8 p-4 border-5 border-dashed border-gray-200"
+  width={1000}
+/>
+
+<Image
+  src={miguel_review}
+  alt="Miguel's testimonial"
+  loading="lazy"
+  class="my-4 rounded-3xl mx-auto mb-8 p-4 border-5 border-dashed border-gray-200"
+  width={1000}
+/>

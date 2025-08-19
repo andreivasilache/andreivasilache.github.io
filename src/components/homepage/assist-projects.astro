@@ -1,0 +1,91 @@
+---
+import { ASSIST_PROJECTS } from "../../shared/const";
+---
+
+<table class="w-full border border-black">
+  <tbody>
+    {
+      ASSIST_PROJECTS.map((project: any, index: number) => {
+        const currentIndex = index + 1;
+        if (index % 2 === 0) {
+          const nextProject = ASSIST_PROJECTS[index + 1];
+          return (
+            <tr class="flex flex-col sm:table-row">
+              <td class="w-full sm:w-1/2 pr-4 align-top border border-black p-4">
+                <div>
+                  <strong class="underline">
+                    {currentIndex}. {project.name}
+                  </strong>
+                  <div>
+                    <ul class="list-disc pl-6">
+                      {project.role && (
+                        <li>
+                          <b>Role</b>: {project.role}
+                        </li>
+                      )}
+                      {project.description && (
+                        <li>
+                          <b>Description</b>: {project.description}
+                        </li>
+                      )}
+                      {project.technologies && (
+                        <li>
+                          <b>Technologies</b>:
+                          <span class="text-gray-600">
+                            {project.technologies}
+                          </span>
+                        </li>
+                      )}
+                      {project.responsibilities && (
+                        <li>
+                          <b>Responsibilities</b>: {project.responsibilities}
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </td>
+              <td class="w-full sm:w-1/2 pl-4 align-top border border-black p-4">
+                {nextProject && (
+                  <div>
+                    <strong class="underline">
+                      {currentIndex + 1}. {nextProject.name}
+                    </strong>
+                    <div>
+                      <ul class="list-disc pl-6">
+                        {nextProject.role && (
+                          <li>
+                            <b>Role</b>: {nextProject.role}
+                          </li>
+                        )}
+                        {nextProject.description && (
+                          <li>
+                            <b>Description</b>: {nextProject.description}
+                          </li>
+                        )}
+                        {nextProject.technologies && (
+                          <li>
+                            <b>Technologies</b>:
+                            <span class="text-gray-600">
+                              {nextProject.technologies}
+                            </span>
+                          </li>
+                        )}
+                        {nextProject.responsibilities && (
+                          <li>
+                            <b>Responsibilities</b>:{" "}
+                            {nextProject.responsibilities}
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </td>
+            </tr>
+          );
+        }
+      })
+    }
+  </tbody>
+</table>
