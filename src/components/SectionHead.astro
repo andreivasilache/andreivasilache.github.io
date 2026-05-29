@@ -1,0 +1,16 @@
+---
+import { getSection } from "../shared/const";
+
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const section = getSection(id);
+const title = section?.label ?? id;
+const index = section?.num;
+---
+
+<div class="mb-7 flex items-baseline justify-between gap-4 border-t border-fg/15 pt-3">
+  <h2 class="text-sm font-bold uppercase tracking-[0.22em]" data-decode>{title}</h2>
+  {index && <span class="text-xs tabular-nums text-muted">{index}</span>}
+</div>

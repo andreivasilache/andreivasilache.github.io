@@ -2,52 +2,87 @@
 import Image from "astro/components/Image.astro";
 import me from "../../assets/me.jpg";
 import { AiOutlineX, AiOutlineGithub, AiOutlineLinkedin } from "react-icons/ai";
+
+const facts = [
+  { label: "role", text: "Software Engineer @ Assist Software", href: "https://assist-software.net" },
+  { label: "based", text: "Suceava, Romania" },
+  { label: "seen", text: "Germany · Italy · Greece" },
+  { label: "fuel", text: "Espresso, always" },
+];
+
+const socials = [
+  { href: "https://github.com/andreivasilache", label: "GitHub", Icon: AiOutlineGithub, size: 21 },
+  { href: "https://www.linkedin.com/in/vasilache-andrei-741a1a158/", label: "LinkedIn", Icon: AiOutlineLinkedin, size: 21 },
+  { href: "https://x.com/andreiv_andrei", label: "X", Icon: AiOutlineX, size: 19 },
+];
 ---
 
-<Image
-  src={me}
-  alt="Me"
-  class="mb-4 rounded-xl"
-  loading="eager"
-  width={1000}
-  priority
-  fetchpriority="high"
-  format="webp"
-/>
-<div>
-  <div class="flex justify-between self-baseline mb-4 mt-8">
-    <h2 class="text-xl font-bold">Me</h2>
-    <div class="flex gap-4">
-      <a href="https://x.com/andreiv_andrei" target="_blank" aria-label="X">
-        <AiOutlineX size={24} />
-      </a>
+<section class="grid items-end gap-8 sm:grid-cols-[1fr_1.1fr]">
+  <Image
+    src={me}
+    alt="Vasilache Andrei"
+    class="aspect-[4/5] w-full border border-line object-cover object-[center_60%] sm:aspect-auto sm:object-center"
+    loading="eager"
+    width={1000}
+    priority
+    fetchpriority="high"
+    format="webp"
+  />
+
+  <div>
+    <p class="eyebrow" data-decode data-decode-delay="650">Software Development Engineer III</p>
+    <h1 class="mt-2 text-3xl font-bold leading-[1.05] tracking-tight sm:text-4xl" data-decode data-decode-delay="850">Vasilache Andrei</h1>
+
+    <dl class="mt-6 space-y-2 text-sm">
+      {
+        facts.map((f) => (
+          <div class="flex gap-4">
+            <dt class="w-14 shrink-0 text-muted lowercase">{f.label}</dt>
+            <dd>
+              {f.href ? (
+                <a
+                  href={f.href}
+                  target="_blank"
+                  class="link"
+                  data-umami-event="outbound"
+                  data-umami-event-label={f.label}
+                >
+                  {f.text}
+                </a>
+              ) : (
+                f.text
+              )}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-7 flex items-center gap-5">
+      {
+        socials.map(({ href, label, Icon, size }) => (
+          <a
+            href={href}
+            target="_blank"
+            aria-label={label}
+            class="text-fg transition-opacity hover:opacity-60"
+            data-umami-event="social-click"
+            data-umami-event-network={label}
+          >
+            <Icon size={size} />
+          </a>
+        ))
+      }
+
+      <span class="h-4 w-px bg-line"></span>
+
       <a
-        href="https://github.com/andreivasilache"
-        target="_blank"
-        aria-label="GitHub"
+        href="mailto:vasilacheandrei46@gmail.com"
+        class="btn"
+        data-umami-event="email-click"
+        data-umami-event-location="hero"
+        >Email me</a
       >
-        <AiOutlineGithub size={24} />
-      </a>
-      <a
-        href="https://www.linkedin.com/in/vasilache-andrei-741a1a158/"
-        target="_blank"
-        aria-label="LinkedIn"
-      >
-        <AiOutlineLinkedin size={24} />
-      </a>
     </div>
   </div>
-
-  <div>👱 Vasilache Andrei - 25 years old</div>
-  <div>📍 Suceava, Romania</div>
-  <div>
-    💼 Software Development Engineer III @ <a
-      href="https://assist-software.net"
-      class="text-blue-600">Assist Software</a
-    >
-  </div>
-  <div>
-    🗺️ Traveled so far: Germany, Italy (Rome & Venice), Greece (Crete & Corfu)
-  </div>
-  <div>☕ I'll never say no to a good espresso</div>
-</div>
+</section>

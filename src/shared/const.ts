@@ -1,3 +1,23 @@
+// Single source of truth for the one-page layout's sections — consumed by the
+// reading-nav rail, the per-section <SectionHead> in index.astro, and the
+// freelancing island. `deferred` marks a section that mounts as a late React
+// island gated behind ?fr=true.
+export const SECTIONS = [
+  { id: "about", num: "01", label: "About" },
+  { id: "education", num: "02", label: "Education" },
+  { id: "experience", num: "03", label: "Experience" },
+  { id: "testimonials", num: "04", label: "Testimonials" },
+  { id: "freelancing", num: "05", label: "Freelancing", deferred: true },
+];
+
+export const getSection = (id: string) => SECTIONS.find((s) => s.id === id);
+
+export const splitTechnologies = (technologies?: string): string[] =>
+  (technologies ?? "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+
 export const ASSIST_PROJECTS = [
   {
     name: "E-commerce Website",

@@ -1,89 +1,106 @@
 ---
 import bim2021 from "../../assets/BIM2021.jpeg";
 import Image from "astro/components/Image.astro";
+
+const features = [
+  "Gamification items",
+  "Reward system",
+  "MS Teams bot",
+  "Social platform",
+  "Smart contracts",
+  "NFT minting & storage",
+  "Digital wallet",
+  "Internal token",
+  "Admin center",
+  "Mainnet connectivity",
+];
 ---
 
-<div class="uppercase font-bold mt-4 mb-2">
-  Below are some events from this company I've been involved in:
-</div>
+<div class="mt-12">
+  <p class="eyebrow mb-5">Events &amp; recognition</p>
 
-<div>
-  <div class="mb-2 font-bold">
-    1. Trainer of <a
-      class="text-blue-600"
-      href="https://assist-software.net/academy/masterclasses/javascript"
-      ><b>2023 Javascript Masterclass:</b></a
-    >
-  </div>
-  <div class="columns-1 sm:columns-2 gap-8">
-    A few years ago, I had the opportunity to step into a new role: trainer at
-    JS Masterclass. It was a chance to do something I’ve always enjoyed—helping
-    others learn. I found myself diving into GraphQL, not just as a technology,
-    but as a story to tell: how it can simplify APIs, make data fetching
-    smarter, and empower developers to build better applications.
-  </div>
-</div>
+  <ol class="panel divide-y divide-line">
+    <li class="grid grid-cols-[2rem_1fr] gap-x-4 p-5 transition-colors hover:bg-subtle sm:p-6">
+      <span class="pt-0.5 text-sm tabular-nums text-muted">01</span>
+      <div class="min-w-0">
+        <h3 class="font-bold">
+          Trainer ·{" "}
+          <a
+            class="link"
+            href="https://assist-software.net/academy/masterclasses/javascript"
+            target="_blank"
+            data-umami-event="event-link"
+            data-umami-event-label="js-masterclass">2023 JavaScript Masterclass</a
+          >
+        </h3>
+        <p class="mt-3 text-sm leading-relaxed text-muted">
+          A few years ago I stepped into a new role: trainer at the JS
+          Masterclass — a chance to do something I've always enjoyed, helping
+          others learn. I dove into GraphQL not just as a technology, but as a
+          story to tell: how it simplifies APIs, makes data fetching smarter,
+          and empowers developers to build better applications.
+        </p>
+      </div>
+    </li>
 
-<div class="my-8">
-  <div class="mb-2 font-bold">
-    2. Winner of <a
-      class="text-blue-600"
-      href="https://assist-software.net/blog/software-engineering-competition-suceava-best-innovative-minds-2021"
-      ><b>Best Innovative Minds 2021:</b></a
-    >
-  </div>
+    <li class="grid grid-cols-[2rem_1fr] gap-x-4 p-5 transition-colors hover:bg-subtle sm:p-6">
+      <span class="pt-0.5 text-sm tabular-nums text-muted">02</span>
+      <div class="min-w-0">
+        <h3 class="font-bold">
+          Winner ·{" "}
+          <a
+            class="link"
+            href="https://assist-software.net/blog/software-engineering-competition-suceava-best-innovative-minds-2021"
+            target="_blank"
+            data-umami-event="event-link"
+            data-umami-event-label="bim-2021">Best Innovative Minds 2021</a
+          >
+        </h3>
 
-  <Image
-    src={bim2021}
-    alt="Best Innovative Minds 2021 Winners"
-    loading="lazy"
-    class="rounded-md"
-  />
+        <Image
+          src={bim2021}
+          alt="Best Innovative Minds 2021 Winners"
+          loading="lazy"
+          class="mt-4 w-full border border-line"
+        />
 
-  <div class="my-4 columns-1 sm:columns-2 gap-8">
-    Best Innovative Minds is considered a tradition amongst ASSIST Software
-    employees. Everybody has a chance to win the grand prize of 1,200 euros and
-    enter the Best Innovative Minds Hall of Fame. <br />
-    <br />
-    During 2021 session, I was part of the winning team with a project called
-    <b>NFTeams</b> aimed to boost employees productivity using gamification and NFTs.
-    <br />
+        <div class="mt-4 space-y-3 text-sm leading-relaxed text-muted">
+          <p>
+            Best Innovative Minds is a tradition among ASSIST Software employees
+            — everyone has a chance to win the grand prize of €1,200 and enter
+            the Hall of Fame. In the 2021 session I was part of the winning team
+            with a project called <b class="text-fg">NFTeams</b>, aimed at
+            boosting employee productivity through gamification and NFTs.
+          </p>
+          <p>
+            Each employee has their own avatar. Taking part in adventures
+            (company events) earns the avatar virtual currency, which can be
+            exchanged at a marketplace for visual items of varying scarcity,
+            extrinsic rewards, or fun prizes — like throwing a pie in a line
+            manager's face, or getting them to buy good coffee.
+          </p>
+        </div>
 
-    <br />
+        <p class="mt-4 text-xs uppercase tracking-wider text-muted">
+          {features.join(" · ")}
+        </p>
+      </div>
+    </li>
 
-    <div>
-      Each Employee has it's own avatar. Taking part in adventures (company
-      events) gains the avatar virtual currency. Tokens can then be exchanged at
-      a marketplace for visual items of various scarcity levels, extrinsic
-      rewards, or even fun prizes such as throwing a pie in a line manager's
-      face or getting them to buy good coffee.
-    </div>
-
-    <div class="my-4">For geeks, these are the developed features:</div>
-    <ul class="pl-8">
-      <li class="list-disc">
-        Gamification items (characters, achievements, leaderboards, stats,
-        quests)
-      </li>
-      <li class="list-disc">Reward system</li>
-      <li class="list-disc">MS Teams bot</li>
-      <li class="list-disc">Social platform features</li>
-      <li class="list-disc">Smart contracts</li>
-      <li class="list-disc">NFT minting and storing</li>
-      <li class="list-disc">Digital wallet</li>
-      <li class="list-disc">Internal token</li>
-      <li class="list-disc">Admin center</li>
-      <li class="list-disc">Main net connectivity</li>
-    </ul>
-  </div>
-</div>
-
-<div>
-  <div class="my-2 font-bold">
-    3. Written my first <a
-      class="text-blue-600"
-      href="https://assist-software.net/snippets/top-new-features-ecmascript-2020-es2020"
-      ><b>article.</b></a
-    >
-  </div>
+    <li class="grid grid-cols-[2rem_1fr] gap-x-4 p-5 transition-colors hover:bg-subtle sm:p-6">
+      <span class="pt-0.5 text-sm tabular-nums text-muted">03</span>
+      <div class="min-w-0">
+        <h3 class="font-bold">
+          Wrote my first{" "}
+          <a
+            class="link"
+            href="https://assist-software.net/snippets/top-new-features-ecmascript-2020-es2020"
+            target="_blank"
+            data-umami-event="event-link"
+            data-umami-event-label="first-article">technical article</a
+          >
+        </h3>
+      </div>
+    </li>
+  </ol>
 </div>

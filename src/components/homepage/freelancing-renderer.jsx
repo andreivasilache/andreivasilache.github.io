@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+import { getSection } from "../../shared/const";
 import FreelancingProjects from "./freelancing-projects";
+
+const section = getSection("freelancing");
 
 const FreelancingRenderer = () => {
   const [showFreelancing, setShowFreelancing] = useState(false);
@@ -12,24 +15,27 @@ const FreelancingRenderer = () => {
   }, []);
 
   if (!showFreelancing) return null;
-  console.log({ showFreelancing });
 
   return (
-    <>
-      <div>
-        <h2 className="text-xl font-bold mb-4 mt-4">💰 Freelancing</h2>
-
-        <div>
-          I started freelancing in 2022, working on various projects that
-          involved web development, and more. This experience helped me build a
-          strong foundation in software engineering and client communication.
-          Unfortunately, there was not much remaining time for freelancing
-          because of my full-time job, but below is the list of projects I
-          worked on:
-          <FreelancingProjects />
-        </div>
+    <section className="mt-20 scroll-mt-24" id={section.id}>
+      <div className="mb-7 flex items-baseline justify-between gap-4 border-t border-fg/15 pt-3">
+        <h2 className="text-sm font-bold uppercase tracking-[0.22em]" data-decode>
+          {section.label}
+        </h2>
+        <span className="text-xs tabular-nums text-muted">{section.num}</span>
       </div>
-    </>
+
+      <p className="prose-block">
+        I started freelancing in 2022, working on web development and more. It
+        helped me build a strong foundation in software engineering and client
+        communication. My full-time job leaves little time for it, but here are
+        the projects I've worked on:
+      </p>
+
+      <div className="mt-6">
+        <FreelancingProjects />
+      </div>
+    </section>
   );
 };
 

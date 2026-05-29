@@ -1,33 +1,88 @@
 ---
-import Image from "astro/components/Image.astro";
+const LINKEDIN_URL =
+  "https://www.linkedin.com/in/vasilache-andrei-741a1a158/details/recommendations/";
 
-import brunna_review from "../../assets/brunna-review.png";
-import miguel_review from "../../assets/miguel-review.png";
+const testimonials = [
+  {
+    name: "Brunna Bastos",
+    role: "Product Manager & Digital Experience Lead",
+    date: "January 2025",
+    initials: "BB",
+    avatar:
+      "https://media.licdn.com/dms/image/v2/D4D03AQG_mboCsuEzSA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1678365417027?e=1781740800&v=beta&t=Ukpa8AxMwFMzs75gjgvvM-2RbI5qLZwBT0bjW7MTlyc",
+    paragraphs: [
+      "Andrei is an outstanding professional who elevates every project he works on. He combines technical expertise with excellent communication, fostering strong relationships with both the development team and stakeholders. His ability to manage multiple priorities while maintaining a strategic vision has been key in the success of challenging projects. Andrei leads with resilience and positivity, ensuring smooth execution and team alignment. A truly invaluable asset to any team.",
+    ],
+  },
+  {
+    name: "Patrícia Marques",
+    role: "Wellastore Product Owner at @Wella",
+    date: "August 2025",
+    initials: "PM",
+    avatar:
+      "https://media.licdn.com/dms/image/v2/C4D03AQEXzg-dNkCZ_Q/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1649283374576?e=1781740800&v=beta&t=P_liyBwGYKzFlX40u-pR3tTKHR-ZIfQb_jSV5lCYfj4",
+    paragraphs: [
+      "Andrei is an outstanding developer! Beyond his strong technical skills, what really stands out is his collaborative spirit. He works exceptionally well within a team, always available to help solve issues and eager to share his knowledge. Andrei consistently looks for practical and efficient solutions, making complex tasks feel simple. His reliability, positive attitude, and dedication make him a great asset to any project or team.",
+    ],
+  },
+  {
+    name: "Miguel Gomes",
+    role: "Ecommerce Manager | CSM & CSPO®",
+    date: "November 2023",
+    initials: "MG",
+    avatar:
+      "https://media.licdn.com/dms/image/v2/C4E03AQFQVwnpLVxQlA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1628589520068?e=1781740800&v=beta&t=5Lb6K_vIL1M7bdm0WlX922N1GnbR-7WKbFn2F6_1adY",
+    paragraphs: [
+      "As a PO, Andrei is the sort of person I would have in any project, in any role. Easy to talk to, supportive, very knowledgeable, has great relationships with the rest of the dev team and the business stakeholders.",
+      "Technically speaking, he has the skills that perfectly fit in all the different stages of a challenging project: he's an active and reasonable voice when refining the business requirements, responsible and with a sense of mission on the everyday tasks, proactive to search for enhancements and always keeps the product's long term vision in sight, even when dealing with short term solutions.",
+      "But the most valuable skill for the time we've worked together has to be the ability to be on top of numerous things, even while still able to delegate some things to other team members. This vision of the product as a whole it's difficult to foster as a PO, and it helped me greatly to share some of that responsibility with the FE team lead. And even in tough times, he has always been able to keep the momentum with a smile on his (oh so tired) face.",
+      "It might look that Andrei gave me a kidney or something, which is not the case. But he gave me some peace of mind in one of the most challenging projects I've ever been. That's not a kidney, but close enough.",
+    ],
+  },
+];
 ---
 
-<h2 class="text-xl font-bold mb-4 mt-4">🤝 Testimonials</h2>
-<div>
-  Because Linkedin does not provide a way to embed testimonials, I'll provide
-  some screenshots received from some peers I've been worked with - you can see
-  the original ones on my <a
-    class="text-blue-600"
-    href="https://www.linkedin.com/in/vasilache-andrei-741a1a158/"
-    >linkedin profile:</a
-  >
+<div class="flex flex-col gap-6">
+  {
+    testimonials.map((t) => (
+      <figure class="border-l-2 border-fg pl-5 sm:pl-6">
+        <blockquote class="space-y-3 text-sm leading-relaxed text-fg/85">
+          {t.paragraphs.map((p) => (
+            <p>{p}</p>
+          ))}
+        </blockquote>
+
+        <figcaption class="mt-5 flex items-center gap-3">
+          <div class="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-subtle text-xs font-bold text-muted">
+            {t.initials}
+            {t.avatar && (
+              <img
+                src={t.avatar}
+                alt={t.name}
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover"
+                onerror="this.remove()"
+              />
+            )}
+          </div>
+          <div class="min-w-0">
+            <div class="text-sm font-bold">{t.name}</div>
+            <div class="text-xs text-muted">
+              {t.role} · {t.date}
+            </div>
+          </div>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link ml-auto shrink-0 text-xs text-muted"
+            data-umami-event="testimonial-linkedin"
+            data-umami-event-author={t.name}
+          >
+            LinkedIn ↗
+          </a>
+        </figcaption>
+      </figure>
+    ))
+  }
 </div>
-
-<Image
-  src={brunna_review}
-  alt="Brunna's testimonial"
-  loading="lazy"
-  class="my-4 rounded-3xl mx-auto mb-8 p-4 border-5 border-dashed border-gray-200"
-  width={1000}
-/>
-
-<Image
-  src={miguel_review}
-  alt="Miguel's testimonial"
-  loading="lazy"
-  class="my-4 rounded-3xl mx-auto mb-8 p-4 border-5 border-dashed border-gray-200"
-  width={1000}
-/>

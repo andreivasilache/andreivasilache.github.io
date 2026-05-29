@@ -1,0 +1,227 @@
+---
+// Reading aids for the one-page layout:
+//  1. a top scroll-progress bar (all viewports)
+//  2. a sticky numbered section index in the left gutter (xl+ only, where the
+//     centered max-w-4xl column leaves room beside it)
+//  3. a terminal-style "decode" reveal for any [data-decode] heading
+// All motion honors prefers-reduced-motion.
+import { SECTIONS } from "../../shared/const";
+---
+
+<div class="reading-progress" aria-hidden="true"></div>
+
+<nav class="reading-rail" aria-label="Section navigation">
+  <ul>
+    {
+      SECTIONS.map((s) => (
+        <li>
+          <a
+            href={`#${s.id}`}
+            data-spy={s.id}
+            data-deferred={s.deferred ? "" : undefined}
+            class="spy-item"
+            data-umami-event="nav-jump"
+            data-umami-event-section={s.id}
+          >
+            <span class="spy-num">{s.num}</span>
+            <span class="spy-label">{s.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .reading-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: var(--c-fg);
+    z-index: 60;
+    will-change: transform;
+  }
+
+  .reading-rail {
+    display: none;
+  }
+
+  /* Only show the gutter index where the centered 56rem column leaves room. */
+  @media (min-width: 1280px) {
+    .reading-rail {
+      display: block;
+      position: fixed;
+      bottom: 2.5rem;
+      left: max(1.5rem, calc((100vw - 56rem) / 2 - 9rem));
+      width: 9rem;
+      z-index: 40;
+    }
+  }
+
+  .reading-rail ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .spy-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.3rem 0;
+    font-size: 0.72rem;
+    line-height: 1;
+    color: var(--c-muted);
+    opacity: 0.55;
+    transition:
+      opacity 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .spy-item:hover {
+    opacity: 1;
+    color: var(--c-fg);
+  }
+
+  .spy-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .spy-label {
+    letter-spacing: 0.04em;
+  }
+
+  .spy-item.is-active {
+    opacity: 1;
+    color: var(--c-fg);
+    transform: translateX(5px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spy-item.is-active {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- scroll progress ---- */
+  const bar = document.querySelector<HTMLElement>(".reading-progress");
+  const onScroll = () => {
+    const el = document.documentElement;
+    const max = el.scrollHeight - el.clientHeight;
+    const p = max > 0 ? el.scrollTop / max : 0;
+    if (bar) bar.style.transform = `scaleX(${p})`;
+  };
+  document.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  onScroll();
+
+  /* ---- scrollspy ---- */
+  const items = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(".spy-item"),
+  );
+  const spyObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const id = (e.target as HTMLElement).id;
+        items.forEach((a) =>
+          a.classList.toggle("is-active", a.dataset.spy === id),
+        );
+      });
+    },
+    { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+  );
+
+  // Deferred sections (data-deferred) render only with ?fr=true and, as React
+  // client:load islands, can mount *after* this script runs.
+  const wantDeferred =
+    new URLSearchParams(window.location.search).get("fr") === "true";
+  const deferred = items.filter((a) => a.dataset.deferred !== undefined);
+
+  // (Re)scan: hide rail entries whose section isn't on the page. Keep a
+  // deferred entry visible when ?fr=true even before its island mounts.
+  // Idempotent so it can run again as late islands appear.
+  const scanSpy = () => {
+    items.forEach((a) => {
+      const id = a.dataset.spy;
+      const target = id ? document.getElementById(id) : null;
+      const keep = !!target || (a.dataset.deferred !== undefined && wantDeferred);
+      const li = a.closest("li");
+      if (li) li.style.display = keep ? "" : "none";
+      if (target) spyObserver.observe(target);
+    });
+  };
+  scanSpy();
+  window.addEventListener("load", scanSpy);
+
+  // Re-scan when new nodes mount (catches deferred islands), then stop once
+  // every expected deferred section is present.
+  const pending = () =>
+    deferred.some((a) => a.dataset.spy && !document.getElementById(a.dataset.spy));
+  if (wantDeferred && pending()) {
+    const mo = new MutationObserver(() => {
+      if (!pending()) {
+        scanSpy();
+        mo.disconnect();
+      }
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+  }
+
+  /* ---- decode reveal ---- */
+  const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>$#*+=";
+  const rand = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+
+  const decode = (el: HTMLElement) => {
+    const text = el.dataset.decodeText ?? "";
+    const dur = 520;
+    let startTs = 0;
+    const tick = (now: number) => {
+      if (!startTs) startTs = now;
+      const t = Math.min(1, (now - startTs) / dur);
+      const revealed = Math.floor(t * text.length);
+      let out = "";
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        out += i < revealed || c === " " ? c : rand();
+      }
+      el.textContent = out;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = text;
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const decodeObserver = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target as HTMLElement;
+        const delay = Number(el.dataset.decodeDelay) || 0;
+        if (delay > 0) setTimeout(() => decode(el), delay);
+        else decode(el);
+        obs.unobserve(e.target);
+      });
+    },
+    { rootMargin: "0px 0px -12% 0px", threshold: 0.1 },
+  );
+
+  const armDecode = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-decode]")
+      .forEach((el) => {
+        if (el.dataset.decodeText !== undefined) return; // already armed
+        el.dataset.decodeText = el.textContent ?? "";
+        if (!reduce) decodeObserver.observe(el);
+      });
+  };
+  armDecode();
+  window.addEventListener("load", armDecode);
+</script>

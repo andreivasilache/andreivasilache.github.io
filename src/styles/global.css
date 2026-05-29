@@ -1,5 +1,97 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "JetBrains Mono Variable", "Inter", sans-serif;
+  --font-sans: "JetBrains Mono Variable", monospace;
+
+  /* colors resolve to CSS variables so they follow the active theme */
+  --color-bg: var(--c-bg);
+  --color-fg: var(--c-fg);
+  --color-muted: var(--c-muted);
+  --color-line: var(--c-line);
+  --color-subtle: var(--c-subtle);
+}
+
+/* light theme (default), and the explicit manual override of it */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --c-bg: #ffffff;
+  --c-fg: #161617;
+  --c-muted: #6c6c70;
+  --c-line: #e3e3e3;
+  --c-subtle: #f4f4f3;
+}
+
+/* dark palette — shared by the system-preference default and the manual
+   override. The :not([data-theme]) guard keeps a manual "light" choice from
+   being overridden by a dark OS preference. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --c-bg: #0c0c0d;
+    --c-fg: #ededee;
+    --c-muted: #8b8b90;
+    --c-line: #242427;
+    --c-subtle: #161618;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --c-bg: #0c0c0d;
+  --c-fg: #ededee;
+  --c-muted: #8b8b90;
+  --c-line: #242427;
+  --c-subtle: #161618;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--c-fg);
+  color: var(--c-bg);
+}
+
+/* theme switcher: show the icon for the theme you'd switch *to* */
+.theme-icon-light {
+  display: none;
+}
+:root[data-theme-resolved="dark"] .theme-icon-light {
+  display: block;
+}
+:root[data-theme-resolved="dark"] .theme-icon-dark {
+  display: none;
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-xs uppercase tracking-[0.18em] text-muted;
+  }
+
+  .link {
+    @apply underline decoration-1 underline-offset-[3px] decoration-fg/30 transition-colors hover:decoration-fg;
+  }
+
+  /* solid button — inverts with the theme */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 border border-fg bg-fg px-4 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-80;
+  }
+
+  /* flat bordered block — no shadow, no rounding */
+  .panel {
+    @apply border border-line bg-bg;
+  }
+
+  .prose-block {
+    @apply max-w-prose text-[15px] leading-relaxed text-fg/85 space-y-4;
+  }
 }

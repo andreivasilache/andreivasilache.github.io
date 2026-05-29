@@ -5,6 +5,18 @@ import jetbrainsMonoLatin from "@fontsource-variable/jetbrains-mono/files/jetbra
 import jetbrainsMonoLatinExt from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-ext-wght-normal.woff2?url";
 
 import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
+
+const year = new Date().getFullYear();
+
+// Umami analytics (cookieless, GDPR-friendly — no consent banner required).
+// Enabled by default with the ID below; override via PUBLIC_UMAMI_WEBSITE_ID
+// (e.g. a .env file or the GitHub Pages build), or set it to "" to disable.
+const UMAMI_WEBSITE_ID =
+  import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ??
+  "0aacf937-3ec3-4178-b2e3-e5322bfbdf07";
+const UMAMI_SRC = "https://cloud.umami.is/script.js";
+const umamiEnabled = Boolean(UMAMI_WEBSITE_ID);
 ---
 
 <!doctype html>
@@ -12,6 +24,16 @@ import "../styles/global.css";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script is:inline>
+      // Apply the stored theme before paint to avoid a flash of the wrong theme.
+      (function () {
+        const stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.dataset.theme = stored;
+        }
+      })();
+    </script>
 
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -52,22 +74,38 @@ import "../styles/global.css";
       crossorigin="anonymous"
     />
 
-    <script
-      type="text/partytown"
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-GHP7P1CTMY"></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-GHP7P1CTMY");
-    </script>
+    {
+      umamiEnabled && (
+        <script defer src={UMAMI_SRC} data-website-id={UMAMI_WEBSITE_ID} />
+      )
+    }
   </head>
-  <!-- <body class="p-12 w-screen bg-white text-gray-900 antialiased"> -->
-  <body class="p-12 w-screen">
-    <slot />
+  <body class="flex min-h-screen flex-col">
+    <header
+      class="mx-auto flex w-full max-w-4xl items-baseline justify-between gap-4 px-5 pt-8 text-sm sm:px-8"
+    >
+      <a href="/" class="font-bold tracking-tight">Vasilache Andrei</a>
+      <div class="flex items-center gap-5">
+        <a
+          href="mailto:vasilacheandrei46@gmail.com"
+          class="link text-muted"
+          data-umami-event="email-click"
+          data-umami-event-location="header"
+          >email ↗</a
+        >
+        <ThemeToggle />
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-4xl flex-1 px-5 py-12 sm:px-8 sm:py-16">
+      <slot />
+    </main>
+
+    <footer
+      class="mx-auto flex w-full max-w-4xl flex-col gap-1 px-5 py-8 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8"
+    >
+      <span>© {year} Vasilache Andrei</span>
+      <span>Suceava, Romania</span>
+    </footer>
   </body>
 </html>

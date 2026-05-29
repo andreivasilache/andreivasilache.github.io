@@ -1,0 +1,71 @@
+---
+// Light/dark switcher. Defaults to the visitor's OS preference; a manual
+// choice is persisted in localStorage and applied via [data-theme] on <html>.
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Switch color theme"
+  title="Switch color theme"
+  class="-m-2 inline-flex items-center justify-center p-2 text-muted transition-colors hover:text-fg"
+>
+  <svg
+    class="theme-icon-light h-[18px] w-[18px]"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+    ></path>
+  </svg>
+
+  <svg
+    class="theme-icon-dark h-[18px] w-[18px]"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+  </svg>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.getElementById("theme-toggle");
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const resolved = () =>
+    root.dataset.theme || (systemDark.matches ? "dark" : "light");
+
+  // Mirror the active theme onto the root so CSS can show the right toggle icon.
+  const applyResolved = () => {
+    root.dataset.themeResolved = resolved();
+  };
+
+  applyResolved();
+
+  btn?.addEventListener("click", () => {
+    const next = resolved() === "dark" ? "light" : "dark";
+    localStorage.setItem("theme", next);
+    root.dataset.theme = next;
+    applyResolved();
+    // Umami is cookieless and may not be loaded yet; guard the global.
+    (window as any).umami?.track("theme-toggle", { theme: next });
+  });
+
+  // keep following the OS while no explicit choice has been made
+  systemDark.addEventListener("change", () => {
+    if (!localStorage.getItem("theme")) applyResolved();
+  });
+</script>
